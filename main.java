@@ -8,7 +8,7 @@ public class main {
         // Insertar datos en la tabla "nombre_de_la_tabla"
         conexionBD.insertarDatos("usuarios", "joel",1, "Francisco");
 
-        // Cerrar la conexión
+        // Cerrar la conexión BD
         conexionBD.cerrarConexion();
     }
 }
