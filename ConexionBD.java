@@ -28,7 +28,7 @@ public class ConexionBD {
         }
     }
 
-    // Método para realizar la inserción de datos
+    // Método para hacerla inserción de datos
     public void insertarDatos(String tabla, String columna1, int columna2, String columna3) {
         PreparedStatement preparedStatement = null;
 
