@@ -4,7 +4,19 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class ConexionBD {
+/**
+ *         public static void main(String[] args) {
+        // Ejemplo de uso
+        ConexionBD conexionBD = new ConexionBD("jdbc:mysql://localhost:3306/Formulario_CBSD", "root", "root1234");
+        
 
+        // Insertar datos en la tabla "nombre_de_la_tabla"
+        conexionBD.insertarDatos("usuarios", "OLAYA","BENAMEUR",4);
+
+        // Cerrar la conexión B
+        conexionBD.cerrarConexion();
+    }
+ */
     private Connection conexion;
 
     // Constructor: Establecer la conexión a la base de datos
@@ -29,20 +41,20 @@ public class ConexionBD {
     }
 
     // Método para hacerla inserción de datos
-    public void insertarDatos(String tabla, String columna1, int columna2, String columna3) {
+    public void insertarDatos(String tabla, String nombre, String apellido, int semilla) {
         PreparedStatement preparedStatement = null;
 
         try {
             // Consulta SQL parametrizada para la inserción de datos
-            String consulta = "INSERT INTO " + tabla + " (columna1, columna2, columna3) VALUES (?, ?, ?)";
+            String consulta = "INSERT INTO " + tabla + " (nombre, apellido, semilla) VALUES (?, ?, ?)";
 
             // Crear un objeto PreparedStatement
             preparedStatement = conexion.prepareStatement(consulta);
 
             // Establecer los valores de los parámetros
-            preparedStatement.setString(1, columna1);
-            preparedStatement.setInt(2, columna2);
-            preparedStatement.setString(3, columna3);
+            preparedStatement.setString(1, nombre);
+            preparedStatement.setString(2, apellido);
+            preparedStatement.setInt(3, semilla);
 
             // Ejecutar la consulta de inserción
             int filasAfectadas = preparedStatement.executeUpdate();
