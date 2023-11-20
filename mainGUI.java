@@ -19,10 +19,16 @@ public class mainGUI extends JFrame {
         pantalla.setEditable(false);
         add(pantalla, BorderLayout.NORTH);
 
+        JButton boton = new JButton();
+        
+        boton.addActionListener(null);
+
+
+
         // Resto de la configuración de la interfaz gráfica aquí
 
         setVisible(true);
-    }
+        
 
     public static void main(String[] args) {
         // Puedes probar la GUI creando una instancia de MainGUI
