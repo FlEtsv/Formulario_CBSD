@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ConexionBD {
+
 /**
  *         public static void main(String[] args) {
         // Ejemplo de uso
@@ -17,6 +17,8 @@ public class ConexionBD {
         conexionBD.cerrarConexion();
     }
  */
+class ConexionBD implements AutoCloseable {
+
     private Connection conexion;
 
     // Constructor: Establecer la conexión a la base de datos
@@ -40,26 +42,17 @@ public class ConexionBD {
         }
     }
 
-    // Método para hacerla inserción de datos
+    // Método para hacer la inserción de datos
     public void insertarDatos(String tabla, String nombre, String apellido, int semilla) {
-        PreparedStatement preparedStatement = null;
+        try (PreparedStatement preparedStatement = conexion.prepareStatement(
+                "INSERT INTO " + tabla + " (nombre, apellido, semilla) VALUES (?, ?, ?)")) {
 
-        try {
-            // Consulta SQL parametrizada para la inserción de datos
-            String consulta = "INSERT INTO " + tabla + " (nombre, apellido, semilla) VALUES (?, ?, ?)";
-
-            // Crear un objeto PreparedStatement
-            preparedStatement = conexion.prepareStatement(consulta);
-
-            // Establecer los valores de los parámetros
             preparedStatement.setString(1, nombre);
             preparedStatement.setString(2, apellido);
             preparedStatement.setInt(3, semilla);
 
-            // Ejecutar la consulta de inserción
             int filasAfectadas = preparedStatement.executeUpdate();
 
-            // Comprobar si la inserción fue exitosa
             if (filasAfectadas > 0) {
                 System.out.println("Inserción exitosa");
             } else {
@@ -68,16 +61,11 @@ public class ConexionBD {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Cerrar el recurso PreparedStatement en el bloque finally
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
+    @Override
+    public void close() throws SQLException {
+        cerrarConexion();
+    }
 }
