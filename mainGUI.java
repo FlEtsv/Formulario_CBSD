@@ -61,7 +61,7 @@ public class mainGUI extends JFrame {
 
             // Insertar datos en la base de datos
             try (ConexionBD conexionBD = new ConexionBD("jdbc:mysql://localhost:3306/Formulario_CBSD", "root", "root1234")) {
-                conexionBD.insertarDatos("ventas", nombre, apellido, 1);
+                conexionBD.insertarDatos("usuarios", nombre, apellido, 1);
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 // Manejar la excepción apropiadamente (mostrar un mensaje de error, etc.)
