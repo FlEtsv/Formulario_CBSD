@@ -68,9 +68,10 @@ public class mainGUI extends JFrame {
             GeneradorRandomConSemillaNumerica generador = new GeneradorRandomConSemillaNumerica();
             long numeroAleatorioLargo = generador.generarNumeroAleatorioLargo();
 
+
             // Insertar datos en la base de datos
             try (ConexionBD conexionBD = new ConexionBD("jdbc:mysql://localhost:3306/Formulario_CBSD", "root", "root1234")) {
-                conexionBD.insertarDatos("usuarios", nombre, apellido, 1);
+                conexionBD.insertarDatos("usuarios", nombre, apellido, numeroAleatorioLargo);
             } catch (SQLException ex) {
                 ex.printStackTrace();
                 // Manejar la excepción apropiadamente (mostrar un mensaje de error, etc.)
@@ -78,6 +79,8 @@ public class mainGUI extends JFrame {
 
             // Concatenar los valores recibidos y mostrarlos en el JTextField de resultado
             resultadoField.setText("Nombre: " + nombre + ", Apellido: " + apellido);
+
+            contraseñaField.setText("=" + numeroAleatorioLargo);
         });
 
         // Mover setVisible(true) fuera del bloque try-catch
