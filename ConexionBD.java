@@ -43,13 +43,13 @@ class ConexionBD implements AutoCloseable {
     }
 
     // Método para hacer la inserción de datos
-    public void insertarDatos(String tabla, String nombre, String apellido, int semilla) {
+    public void insertarDatos(String tabla, String nombre, String apellido, long semilla) {
         try (PreparedStatement preparedStatement = conexion.prepareStatement(
                 "INSERT INTO " + tabla + " (nombre, apellido, semilla) VALUES (?, ?, ?)")) {
 
             preparedStatement.setString(1, nombre);
             preparedStatement.setString(2, apellido);
-            preparedStatement.setInt(3, semilla);
+            preparedStatement.setLong(3, semilla);
 
             int filasAfectadas = preparedStatement.executeUpdate();
 
