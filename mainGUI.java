@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class mainGUI extends JFrame {
 
-    private JTextField nombreField, apellidoField, resultadoField;
+    private JTextField nombreField, apellidoField, resultadoField, contraseñaField;
     private JButton boton;
 
     public mainGUI() {
@@ -22,7 +22,9 @@ public class mainGUI extends JFrame {
         nombreField = new JTextField();
         apellidoField = new JTextField();
         resultadoField = new JTextField();  // Declaración de resultadoField
-        boton = new JButton("Aceptar");
+        boton = new JButton("Guardar");
+        contraseñaField = new JTextField(); // declaracion nuevo campo para la contraseña
+
 
         // Configuración de colores y bordes si es necesario
         nombreField.setBackground(Color.WHITE);
@@ -33,6 +35,7 @@ public class mainGUI extends JFrame {
         apellidoField.setBounds(90, 100, 150, 30);
         resultadoField.setBounds(90, 200, 300, 30);
         boton.setBounds(50, 150, 100, 30);
+        contraseñaField.setBounds(100, 250, 150, 30);
 
         // Añadir componentes al panel
         JLabel nombreLabel = new JLabel("Nombre:");
@@ -49,12 +52,21 @@ public class mainGUI extends JFrame {
         panelPrincipal.add(resultadoField);
         panelPrincipal.add(boton);
 
+
+        JLabel contraseñLabel = new JLabel("Contraseña:");
+        contraseñLabel.setBounds(10, 250 ,150,30);
+        panelPrincipal.add(contraseñLabel);
+        panelPrincipal.add(contraseñaField);
+
+
         // Añadir el panelPrincipal a la ventana
         add(panelPrincipal);
 
         boton.addActionListener(e -> {
             String nombre = nombreField.getText();
             String apellido = apellidoField.getText();
+            GeneradorRandomConSemillaNumerica generador = new GeneradorRandomConSemillaNumerica();
+            long numeroAleatorioLargo = generador.generarNumeroAleatorioLargo();
 
             // Insertar datos en la base de datos
             try (ConexionBD conexionBD = new ConexionBD("jdbc:mysql://localhost:3306/Formulario_CBSD", "root", "root1234")) {
