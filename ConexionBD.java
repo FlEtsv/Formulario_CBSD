@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -20,6 +21,16 @@ import java.sql.SQLException;
 class ConexionBD implements AutoCloseable {
 
     private Connection conexion;
+    private String rNombre;
+    private String rApellidos;
+
+    public String obtenerRNombre() {
+        return rNombre;
+    }
+
+    public String obtenerRApellidos() {
+        return rApellidos;
+    }
 
     // Constructor: Establecer la conexión a la base de datos
     public ConexionBD(String url, String usuario, String contraseña) {
@@ -38,6 +49,7 @@ class ConexionBD implements AutoCloseable {
                 conexion.close();
             } catch (SQLException e) {
                 e.printStackTrace();
+                System.err.println(e);
             }
         }
     }
@@ -68,4 +80,28 @@ class ConexionBD implements AutoCloseable {
     public void close() throws SQLException {
         cerrarConexion();
     }
+
+
+
+
+    //metodo para buscar en la base de datos la semilla y recuperar los nombres y apellidos
+    public void recuperarDatos(long semilla){
+    String consultaSQL = "SELECT nombre, apellido FROM usuarios WHERE semilla = ? ";
+
+    try (PreparedStatement conexion1Statement = conexion.prepareStatement(consultaSQL)) {
+        conexion1Statement.setLong(1, semilla);
+        try (ResultSet resultSet = conexion1Statement.executeQuery()) {
+            while (resultSet.next()) {
+                 rNombre = resultSet.getString(1);
+                 rApellidos = resultSet.getString(2);
+
+                System.out.println("Nombre: " + rNombre + " " + rApellidos);
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace(); // Imprime la traza de la excepción para depuración
+        System.err.println("Error SQL: " + e.getErrorCode() + ", Mensaje: " + e.getMessage());
+    }
+}
+
 }
